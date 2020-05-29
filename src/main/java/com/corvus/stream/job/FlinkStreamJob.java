@@ -52,8 +52,9 @@ public class FlinkStreamJob {
 			SingleOutputStreamOperator<Route> route = this.distanceStream
 					.keyBy(Route::getId)
 					.window(GlobalWindows.create())
-					.trigger(CountTrigger.of(2))
-					.process( new ReduceRoutes());
+					.trigger(CountTrigger.of(6))
+					.process( new ReduceRoutes())
+					.name("min-distance-routes");
 			route.addSink(new OutputSink());
 			return instance;
 		}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="commonPattern">%d{yyy-MM-dd HH:mm:ss.SSS} %-5p [%t] %c{1} - %msg%n</Property>
+        <Property name="rollover.interval.days">1</Property>
+        <Property name="maxFileSize">100 MB</Property>
+        <Property name="logger.path">logs</Property>
+        <Property name="logger.path.archive">logs/archived</Property>
+        <Property name="logger.console.appender.level">ALL</Property>      <!-- Set to ERROR in production -->
+    </Properties>
+    <Appenders>
+        <!-- Console appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <ThresholdFilter level="${sys:logger.console.appender.level}" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${commonPattern}"/>
+        </Console>
+
+
+        <RollingRandomAccessFile name="FlinkStreamAppender" fileName="${sys:logger.path}/flinkstream.log" immediateFlush="false"
+                                 filePattern="${sys:logger.path.archive}/%d{yyyyMMdd}_flinkstream-%i.log.gz">
+            <PatternLayout pattern="${commonPattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${rollover.interval.days}" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="${maxFileSize}"/>
+            </Policies>
+        </RollingRandomAccessFile>
+
+    </Appenders>
+    <Loggers>
+        <Logger name="FLINK-STREAM" level="info" additivity="false">
+            <AppenderRef ref="FlinkStreamAppender"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+  
+
+        <root level="error">
+            <AppenderRef ref="Console"/>
+        </root>
+    </Loggers>
+</Configuration>

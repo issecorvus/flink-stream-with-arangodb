@@ -23,7 +23,7 @@ public class ArangoDBAllRouteSource extends ArangoDBSource implements Logging {
 	private static final long serialVersionUID = 1L;
 
 	public enum AIRPORTS {
-		BIS,LAS,DEN,IAD,JFK,PBI;
+		LAX,LAS,DEN,IAD,JFK,PBI,GJ,SFO,SJC,GJT,DFW,PHX,EWR,SAN,ORD,RIC;
 	}
 	
 	protected void getData() {
