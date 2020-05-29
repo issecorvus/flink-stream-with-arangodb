@@ -26,7 +26,8 @@ import com.corvus.stream.job.NodeSource;
  * Runs the Flink Stream demo application for ArangoDb.  The ArangoDb data is really
  * bounded data so using BatchTableEnvironment is probably more appropriate, but for
  * this exercise, we want to show a windowed model.  The user can choose between two
- * different ArangoDB sources
+ * different ArangoDB sources and this is controlled by the property com.corvus.stream.all.routes
+ * in application.properties.
  *
  */
 @SpringBootApplication
@@ -34,16 +35,17 @@ public class StreamMainApplication implements Logging {
 	
 	@Autowired
 	private Environment env;
-	
+	private static ConfigurableApplicationContext appContext = null;
 	
 	public static void main(String[] args) {
 
 		AnnotationConfigApplicationContext  applicationConfigContext = new AnnotationConfigApplicationContext(ApplicationConfig.class);		
 		FlinkStreamJob.Builder job = applicationConfigContext.getBean(FlinkStreamJob.Builder.class);
 		
-		ConfigurableApplicationContext appContext = new SpringApplicationBuilder(StreamMainApplication.class)
+		appContext = new SpringApplicationBuilder(StreamMainApplication.class)
                 .bannerMode(Banner.Mode.OFF)
                 .run(args);
+		
         StreamMainApplication application = appContext.getBean(StreamMainApplication.class);
         
         System.exit(SpringApplication.exit(appContext, () -> application.run(job) ? 0 : 1));
@@ -57,7 +59,7 @@ public class StreamMainApplication implements Logging {
      */
     private boolean run(FlinkStreamJob.Builder job) {
     	try {
-    		Boolean allRoutes = Boolean.parseBoolean(this.env.getProperty(KEY_ALL_ROUTES));
+    		Boolean allRoutes = Boolean.parseBoolean(env.getProperty(KEY_ALL_ROUTES));
     		job
     			.withNodeSource( allRoutes == true ? 
     					new NodeSource(new ArangoDBAllRouteSource()) : 
@@ -69,15 +71,8 @@ public class StreamMainApplication implements Logging {
 		}
         return true;
     }
+    public static Environment getEnvironment() {
+    	return appContext == null ? null : appContext.getEnvironment();
+    }
     
-	@Bean
-	public Properties setDatabaseProperties() {
-		// Properties need to be set as system properties because Flink constructs its own objects
-		// and configuration cannot be passed.
-		String user = Optional.ofNullable(env.getProperty(KEY_ARANGO_DB_USERNAME)).orElse("");
-		String password = Optional.ofNullable(env.getProperty(KEY_ARANGO_DB_PASSWORD)).orElse("");
-		System.setProperty(KEY_ARANGO_DB_USERNAME,user);
-		System.setProperty(KEY_ARANGO_DB_PASSWORD,password);
-		return System.getProperties();
-	}
 }

@@ -46,6 +46,7 @@ public class ArangoDBDirectRouteSource extends ArangoDBSource implements Logging
 					cursorShortest.forEachRemaining(aDocument -> {
 						routeList.add(aDocument);
 					});
+					routesList.add(routeList);
 				}
 			}
 		} catch (Exception e) {

@@ -1,3 +1,11 @@
+About
+------
+This is a demo showing ArangoDB working as an input source for a Flink stream.
+The ArangoDb data is really bounded data so using BatchTableEnvironment is probably more appropriate, but for this exercise, we want to show a windowed model.  The user can choose between two
+different ArangoDB source, a flight connection source ArangoDBAllRouteSource, and a direct connection
+source, ArangoDBDirectRouteSource, and this is controlled by the property com.corvus.stream.all.routes
+in application.properties.
+
 Prerequisites
 ---------------
 Sample data can also be found here (airports.csv, flights.csv):
@@ -16,9 +24,7 @@ Building/Running
 1) Build with mvn clean install -DskipTests (if database is up, mvn clean install)
 2) Run with mvn spring-boot:run
 3) Should print out the results of two windows similar to:
-2020-05-28 17:21:07.762 INFO  [Legacy Source Thread - Source: direct-routes (1/1)] FLINK-STREAM - Using ArangoDBAllRouteSource
-BIS -> DEN distance = 832
-BIS -> DEN -> LAS distance = 1842
-IAD -> JFK distance = 366
+IAD -> CLE -> RIC distance = 1046
+LAX -> SAN distance = 176
 
 
