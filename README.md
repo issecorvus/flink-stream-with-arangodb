@@ -8,8 +8,8 @@ in application.properties.
 
 Prerequisites
 ---------------
-Sample data can also be found here (airports.csv, flights.csv):
-https://github.com/arangodb/example-datasets
+Sample data can is found here (airports.csv, flights.csv):
+arangodb.com/arangodb_graphcourse_demodata/
 
 1) Install ArangoDB (https://www.arangodb.com/)...Create it with user: root and password: openSesame,
 otherwise change the application.properties file in src/main/resources to reflect your own.
