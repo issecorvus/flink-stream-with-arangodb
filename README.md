@@ -8,12 +8,12 @@ in application.properties.
 
 Prerequisites
 ---------------
-Sample data can also be found here (airports.csv, flights.csv):
-https://github.com/arangodb/example-datasets
+Sample data is found here (airports.csv, flights.csv):
+arangodb.com/arangodb_graphcourse_demodata/
 
 1) Install ArangoDB (https://www.arangodb.com/)...Create it with user: root and password: openSesame,
 otherwise change the application.properties file in src/main/resources to reflect your own.
-2) Install Airports data (located in src/main/resources/data of this project):
+2) Install Airports data (located at link above):
 arangoimport --file <<path to airports.csv on your machine>> --collection airports --create-collection true --type csv
 3) Install Flighs data:
 arangoimport --file <<path to flights.csv on your machine>> --collection flights --create-collection true --type csv --create-collection-type edge 
