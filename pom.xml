@@ -16,7 +16,7 @@
 		<springframework-boot.version>2.2.5.RELEASE</springframework-boot.version>
 		<springframework.version>5.2.4.RELEASE</springframework.version>
 		<kafka-client.version>2.2.1</kafka-client.version>
-		<h2.database.version>1.4.197</h2.database.version>
+		<h2.database.version>2.0.202</h2.database.version>
 		<ignite.version>2.7.6</ignite.version>
 		<junit.version>4.12</junit.version>
 		<mockito.version>2.28.2</mockito.version>
